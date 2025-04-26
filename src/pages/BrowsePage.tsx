@@ -13,7 +13,6 @@ const BrowsePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [allAvailableGenres, setAllAvailableGenres] = useState<string[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
   
@@ -73,7 +72,6 @@ const BrowsePage: React.FC = () => {
         }
         
         setAnimes(animesData);
-        setHasNextPage(animesData.length === 20); // Assuming 20 items per page
         // Estimate total pages based on whether we have a full page of results
         setTotalPages(prev => {
           if (animesData.length < 20) {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Anime, Season, Episode } from '../types';
+import { Anime, Season } from '../types';
 
 // Use the environment variable with a fallback
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;

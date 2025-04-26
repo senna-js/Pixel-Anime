@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUser, FaEdit, FaHistory, FaBookmark, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaHistory, FaBookmark, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import MainLayout from '../components/layout/MainLayout';
 
 type WatchHistoryItem = {

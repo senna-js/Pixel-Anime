@@ -35,12 +35,19 @@ const CategoriesPage: React.FC = () => {
   
   // Create categories based on genres
   const genreImages: Record<string, string> = {
-    action: 'https://image.tmdb.org/t/p/original/6YwkGolwdOMNpbTOmLjoehlVWs5.jpg',
-    adventure: 'https://image.tmdb.org/t/p/original/lxD5ak7BOoinRNehOCA85CQ8ubr.jpg',
-    comedy: 'https://image.tmdb.org/t/p/original/iJX9JQJ9grA22eIlJQp8kAJ2vJ.jpg',
-    drama: 'https://image.tmdb.org/t/p/original/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg',
-    fantasy: 'https://image.tmdb.org/t/p/original/m1t7EqzF2yaaFPXgxjbGGqcBm8N.jpg',
-    horror: 'https://image.tmdb.org/t/p/original/vfuzELmhBjBTswXj2Vqxnu5ge4g.jpg',
+    action: 'https://www.pride.org.my/wp-content/uploads/2021/03/lgi39qi7kmzdipemivm1.jpg',
+    adventure: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2023/10/the-main-cast-of-frieren.jpg',
+    cars: 'https://imgix.ranker.com/list_img_v2/19242/1839242/original/1839242-u3',
+    comedy: 'https://static1.colliderimages.com/wordpress/wp-content/uploads/2024/10/daily_lives_of_high_school_boys.jpg',
+    dementia: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0pjqPy-wo1FfCxHrmYD9n-bTVNxMPefUr4w&s',
+    demons: 'https://staticg.sportskeeda.com/editor/2023/11/44d5a-17002924082331-1920.jpg',
+    drama: 'https://imgix.ranker.com/list_img_v2/15115/2795115/original/best-drama-anime?auto=format&q=50&fit=crop&fm=pjpg&dpr=2&crop=faces&h=185.86387434554973&w=355',
+    ecchi: 'https://thecinemaholic.com/wp-content/uploads/2018/08/_d_improd_/sankarea_f_improf_900x506.jpg',
+    game: 'https://static1.dualshockersimages.com/wordpress/wp-content/uploads/2023/05/10-best-anime-about-gaming.jpg',
+    harem: 'https://imgix.ranker.com/list_img_v2/14804/1834804/original/1834804-u3?auto=format&q=50&fit=crop&fm=pjpg&dpr=2&crop=faces&h=185.86387434554973&w=355',
+    historical: 'https://a.storyblok.com/f/178900/960x540/8bb18b7440/the-elusive-samurai.jpg/m/filters:quality(95)format(webp)',
+    fantasy: 'https://static1.moviewebimages.com/wordpress/wp-content/uploads/2024/05/20-underrated-dark-fantasy-anime-you-should-watch.jpg',
+    horror: 'https://static1.srcdn.com/wordpress/wp-content/uploads/2023/10/horror-anime-featured.jpg',
     // Default image for other genres
     default: 'https://image.tmdb.org/t/p/original/r0FLFaxe4vaIl8iv46OaJLBPDXf.jpg'
   };

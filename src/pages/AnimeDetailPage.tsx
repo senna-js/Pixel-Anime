@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Anime, Episode, Season } from '../types';
+import { Anime, Season } from '../types';
 import MainLayout from '../components/layout/MainLayout';
 import { FaStar, FaPlay, FaCalendarAlt, FaClock, FaList, FaThLarge, FaAngleDown } from 'react-icons/fa';
 import { animeApi } from '../services/api';

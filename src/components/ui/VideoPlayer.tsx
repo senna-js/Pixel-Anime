@@ -136,19 +136,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     onVideoEnded();
   }, [onVideoEnded]);
   
-  // Extract base URL for handling relative paths in m3u8 files
-  const extractBaseUrl = useCallback((url: string) => {
-    try {
-      const parsedUrl = new URL(url);
-      // Get base path up to the last directory containing the m3u8 file
-      const pathParts = parsedUrl.pathname.split('/');
-      pathParts.pop(); // Remove filename
-      return `${parsedUrl.protocol}//${parsedUrl.host}${pathParts.join('/')}/`;
-    } catch (e) {
-      return '';
-    }
-  }, []);
-  
   // Add subtitles to video element
   const attachSubtitles = useCallback(() => {
     const videoElement = videoRef.current;
@@ -310,7 +297,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         });
         
         // Handle errors
-        hls.on(Hls.Events.ERROR, (event, data) => {
+        hls.on(Hls.Events.ERROR, (_, data) => {
           if (data.fatal) {
             // Set an appropriate error message based on the type of error
             if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
