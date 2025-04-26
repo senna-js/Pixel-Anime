@@ -7,6 +7,14 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
+  // Debug information
+  console.log('Proxy request received:', {
+    url: req.url,
+    method: req.method,
+    query: req.query,
+    headers: req.headers
+  });
+  
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -22,7 +30,14 @@ export default async function handler(req, res) {
     const { url, referer } = req.query;
     
     if (!url) {
-      return res.status(400).json({ error: 'URL parameter is required' });
+      return res.status(400).json({ 
+        error: 'URL parameter is required',
+        received: {
+          query: req.query,
+          method: req.method,
+          path: req.url
+        }
+      });
     }
     
     // Decode the URL
@@ -103,6 +118,10 @@ export default async function handler(req, res) {
     
   } catch (error) {
     console.error('Proxy error:', error);
-    return res.status(500).json({ error: 'Proxy request failed' });
+    return res.status(500).json({ 
+      error: 'Proxy request failed',
+      message: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 } 
