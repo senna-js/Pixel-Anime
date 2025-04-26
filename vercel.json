@@ -1,10 +1,8 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
-  ],
-  "routes": [
-    { "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|svg|webp|json))", "dest": "/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*\\.(js|css|ico|png|jpg|jpeg|svg|webp|json))", "destination": "/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 } 
