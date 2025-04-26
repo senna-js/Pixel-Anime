@@ -1,7 +1,7 @@
 // Serverless proxy function for Vercel
 // This handles CORS issues with HLS video streams
 
-export default function handler(req, res) {
+module.exports = (req, res) => {
   // Set CORS headers to allow all origins
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
