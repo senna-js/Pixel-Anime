@@ -28,7 +28,7 @@ app.get('/proxy', async (req, res) => {
         // Forward necessary headers including referer if needed
         'Referer': referer,
         'User-Agent': req.headers['user-agent'] || 'Mozilla/5.0',
-        'Origin': req.headers['origin'] || 'http://localhost:5173',
+        'Origin': req.headers['origin'],
         'Accept': req.headers['accept'] || '*/*',
         'Accept-Language': req.headers['accept-language'] || 'en-US,en;q=0.9',
         'Accept-Encoding': req.headers['accept-encoding'] || 'gzip, deflate, br'
