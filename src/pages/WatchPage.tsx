@@ -5,7 +5,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Anime, Episode, Season } from '../types';
 import VideoPlayer from '../components/ui/VideoPlayer';
 import MainLayout from '../components/layout/MainLayout';
-import { FaArrowLeft, FaArrowRight, FaListUl } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaListUl, FaChevronDown } from 'react-icons/fa';
 import { animeApi } from '../services/api';
 
 const WatchPage: React.FC = () => {
@@ -25,6 +25,16 @@ const WatchPage: React.FC = () => {
   const [selectedServer, setSelectedServer] = useState<string>('vidcloud');
   const videoServers = ['vidcloud', 'streamsb', 'vidstreaming'];
   const [error, setError] = useState<string | null>(null);
+  
+  // Episodes pagination and grouping
+  const EPISODES_PER_SECTION = 30;
+  const [selectedSection, setSelectedSection] = useState<number>(0);
+  const [episodeSections, setEpisodeSections] = useState<Array<{start: number, end: number}>>([]);
+  
+  // Calculate section for a specific episode number
+  const calculateSectionForEpisode = (episodeNumber: number): number => {
+    return Math.floor((episodeNumber - 1) / EPISODES_PER_SECTION);
+  };
 
   // Updated to only use animeApi
   const fetchAnime = async (id: string) => {
@@ -87,6 +97,22 @@ const WatchPage: React.FC = () => {
           setWatchTime(parseFloat(savedWatchTime));
         }
         
+        // Create episode sections
+        if (season.episodes.length > 0) {
+          const maxEpisodeNumber = Math.max(...season.episodes.map(e => e.number));
+          const numSections = Math.ceil(maxEpisodeNumber / EPISODES_PER_SECTION);
+          
+          const sections = Array.from({ length: numSections }, (_, index) => ({
+            start: index * EPISODES_PER_SECTION + 1,
+            end: Math.min((index + 1) * EPISODES_PER_SECTION, maxEpisodeNumber)
+          }));
+          
+          setEpisodeSections(sections);
+          
+          // Set the initial selected section based on the current episode
+          setSelectedSection(calculateSectionForEpisode(episode.number));
+        }
+        
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -122,6 +148,14 @@ const WatchPage: React.FC = () => {
 
     fetchVideoSources();
   }, [currentEpisode, selectedServer]);
+  
+  // Update selected section when episode changes
+  useEffect(() => {
+    if (currentEpisode) {
+      const newSection = calculateSectionForEpisode(currentEpisode.number);
+      setSelectedSection(newSection);
+    }
+  }, [currentEpisode]);
   
   // Save watch time to local storage periodically
   const handleTimeUpdate = (time: number) => {
@@ -277,6 +311,18 @@ const WatchPage: React.FC = () => {
     return sources[0].url;
   };
   
+  // Get episodes for the current section
+  const getEpisodesForCurrentSection = () => {
+    if (!currentSeason || episodeSections.length === 0) return [];
+    
+    const section = episodeSections[selectedSection];
+    if (!section) return [];
+    
+    return currentSeason.episodes.filter(
+      episode => episode.number >= section.start && episode.number <= section.end
+    );
+  };
+  
   if (loading) {
     return (
       <MainLayout>
@@ -309,6 +355,9 @@ const WatchPage: React.FC = () => {
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
+  
+  // Get filtered episodes based on selected section
+  const sectionEpisodes = getEpisodesForCurrentSection();
   
   return (
     <MainLayout>
@@ -417,11 +466,33 @@ const WatchPage: React.FC = () => {
           </div>
         )}
 
-        {/* Episode List */}
+        {/* Episode List with Section Selection */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-white mb-4">More Episodes from {currentSeason?.title}</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-white">{currentSeason?.title} Episodes</h2>
+            
+            {/* Episode Section Selector */}
+            {episodeSections.length > 1 && (
+              <div className="relative">
+                <select 
+                  value={selectedSection}
+                  onChange={(e) => setSelectedSection(parseInt(e.target.value))}
+                  className="appearance-none bg-jet-hover text-white py-2 px-4 pr-8 rounded-md cursor-pointer"
+                >
+                  {episodeSections.map((section, index) => (
+                    <option key={index} value={index}>
+                      Episodes {section.start}-{section.end}
+                    </option>
+                  ))}
+                </select>
+                <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white pointer-events-none" />
+              </div>
+            )}
+          </div>
+          
+          {/* Display episodes for current section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {currentSeason?.episodes.map((episode) => (
+            {sectionEpisodes.map((episode) => (
               <Link
                 key={episode.id}
                 to={`/watch/${anime?.id}/${currentSeason?.id}/${episode.id}`}
@@ -473,6 +544,25 @@ const WatchPage: React.FC = () => {
               </Link>
             ))}
           </div>
+          
+          {/* Quick jump to other sections if many episodes */}
+          {episodeSections.length > 2 && (
+            <div className="mt-6 flex flex-wrap gap-2 justify-center">
+              {episodeSections.map((section, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedSection(index)}
+                  className={`px-3 py-1 text-sm rounded-full ${
+                    selectedSection === index
+                      ? 'bg-primary-600 text-white'
+                      : 'bg-jet-card text-white hover:bg-jet-hover'
+                  }`}
+                >
+                  {section.start}-{section.end}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </MainLayout>
