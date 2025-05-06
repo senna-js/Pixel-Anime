@@ -1,5 +1,5 @@
 # Pixel Anime
-<img align="right" src="public/logo.svg" width=130 alt="Lavalink logo">
+<img align="right" src="public/logo.svg" width=130 alt="pixel-anime">
 
 Pixel Anime is a modern, responsive web application for streaming anime. With a sleek UI inspired by popular streaming platforms, Pixel Anime offers a seamless viewing experience for anime enthusiasts.
 
